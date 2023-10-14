@@ -1,5 +1,6 @@
 <p align="center">
-  <img src="WebScraper/DALL·E Spider Logo.png" alt="Web Scraper logo"/>
+  <img src="WebScraper/DALL·E Spider Logo.png" alt="Web Scraper logo" style="width: 250px"/>
+  *image creds go to DALL·E 3
 </p>
 
 # Overview
