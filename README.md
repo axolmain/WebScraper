@@ -1,4 +1,6 @@
-![Web Scraper logo](DALL·E%20Spider%20Logo.png)
+<p align="center">
+  <img src="WebScraper/DALL·E Spider Logo.png" alt="Web Scraper logo"/>
+</p>
 
 # Overview
 
