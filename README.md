@@ -1,6 +1,6 @@
 <p align="center">
   <img src="WebScraper/DALL·E Spider Logo.png" alt="Web Scraper logo" style="width: 250px"/>
-  *image creds go to DALL·E 3
+  <br>*image creds go to DALL·E 3
 </p>
 
 # Overview
@@ -13,7 +13,7 @@ as a practical application of my learning but also aims to build a foundation fo
 complex automation tasks in the future (and saves me time/effort when I have to register for 
 classes every semester in university). 
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/6jfcp6Mul5o)
 
 # Development Environment
 

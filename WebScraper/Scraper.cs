@@ -17,7 +17,8 @@ public class Scraper : IScraper
 
     public async Task LoginAndScrapeAsync(string course, string professor, string track = "Winter Semester 2024")
     {
-        await _authenticator.LoginAsync(Environment.GetEnvironmentVariable("USERNAME_SCRAPER"), Environment.GetEnvironmentVariable("PASSWORD_SCRAPER"));
+        await _authenticator.LoginAsync(Environment.GetEnvironmentVariable("USERNAME_SCRAPER"), 
+            Environment.GetEnvironmentVariable("PASSWORD_SCRAPER"));
         
         // Go to course search page
         await _browser.NavigateAsync(
