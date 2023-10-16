@@ -17,9 +17,9 @@ public class Scraper : IScraper
 
     public async Task LoginAndScrapeAsync(string course, string professor, string track = "Winter Semester 2024")
     {
-        await _authenticator.LoginAsync(Environment.GetEnvironmentVariable("USERNAME_SCRAPER"), 
+        await _authenticator.LoginAsync(Environment.GetEnvironmentVariable("USERNAME_SCRAPER"),
             Environment.GetEnvironmentVariable("PASSWORD_SCRAPER"));
-        
+
         // Go to course search page
         await _browser.NavigateAsync(
             "https://my.byui.edu/ICS/Academics/Academic_Information.jnz?portlet=Registration&screen=Advanced+Course+" +
@@ -29,22 +29,22 @@ public class Scraper : IScraper
         if (NoSpam.WaitForElementToBeVisible(By.XPath(
                 "/html/body/div[3]/form/div[5]/div/div/div/div[3]/div/div/div/div[3]/div/div[2]/" +
                 "select[1]"), 10) != null)
-        {
             SelectTrack(By.XPath(
                 "/html/body/div[3]/form/div[5]/div/div/div/div[3]/div/div/div/div[3]/div/div[2]/" +
                 "select[1]"), track);
-        }
         await NoSpam.WaitAsync(2);
-        
+
         SelectTrack(By.XPath("/html/body/div[3]/form/div[5]/div/div/div/div[3]/div/div/div/div[3]/div/" +
                              "div[2]/select[6]"), professor);
-        
+
         // Type the class you want
-        await TypeInBox(By.XPath("/html/body/div[3]/form/div[5]/div/div/div/div[3]/div/div/div/div[3]/div/div[2]/input[2]"), course.Split('-')[0], true);
-        
+        await TypeInBox(
+            By.XPath("/html/body/div[3]/form/div[5]/div/div/div/div[3]/div/div/div/div[3]/div/div[2]/input[2]"),
+            course.Split('-')[0], true);
+
         IWebElement searchCourseBtn = _browser.FindElement(By.Name("pg0$V$btnSearch"));
 
-        
+
         await _browser.ClickButtonAsync(searchCourseBtn);
 
         await NoSpam.WaitAsync(4);
@@ -55,15 +55,6 @@ public class Scraper : IScraper
     public Task<IWebElement> SearchForTable(By by)
     {
         return Task.FromResult(_browser.FindElement(by));
-        
-    }
-    
-    /// TODO: Change to Enum if published
-    public void SelectTrack(By by, string trackName)
-    {
-        IWebElement trackSelection = _browser.FindElement(by);
-        SelectElement selectElement = new SelectElement(trackSelection);
-        selectElement.SelectByText(trackName);
     }
 
     public async Task ClickCellInTable(string cellValue)
@@ -78,22 +69,37 @@ public class Scraper : IScraper
                 ReadOnlyCollection<IWebElement> cells = row.FindElements(By.TagName("td"));
 
                 foreach (IWebElement cell in cells)
-                {
-                    if (cell.Text.Equals(cellValue, StringComparison.OrdinalIgnoreCase))
+                    if (cell.Location.Equals(cells[0].Location))
                     {
-                        IWebElement link = cell.FindElement(By.TagName("a"));
-                        link.Click();
-                        return;
+                        Console.WriteLine("test");
+                        IWebElement checkBox = _browser.FindElement(By.XPath("//input[contains(@type, 'checkbox')]"));
+                        checkBox.Click();
+
+                        IWebElement addCourseBtn =
+                            _browser.FindElement(By.XPath("//input[contains(@name, 'btnAddCourse')]"));
+                        Console.WriteLine("addCourseBtn.Click()");
                     }
-                }
+                // if (cell.Text.Equals(cellValue, StringComparison.OrdinalIgnoreCase))
+                //     
+                // {
+                //     IWebElement link = cell.FindElement(By.TagName("a"));
+                //     link.Click();
+                //     return;
+                // }
             }
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
-        
-        
+    }
+
+    /// TODO: Change to Enum if published
+    private void SelectTrack(By by, string trackName)
+    {
+        IWebElement trackSelection = _browser.FindElement(by);
+        SelectElement selectElement = new(trackSelection);
+        selectElement.SelectByText(trackName);
     }
 
     public static bool IsElementPresent(By by, IBrowser browser)
@@ -108,7 +114,7 @@ public class Scraper : IScraper
             return false;
         }
     }
-    
+
     private async Task TypeInBox(By findingMethod, string whatToType, bool shouldWait = false)
     {
         _browser.FindElement(findingMethod).SendKeys(whatToType);

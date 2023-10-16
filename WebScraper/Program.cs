@@ -8,6 +8,6 @@ internal class Program
         IAuthenticator authenticator = new Authenticator(browser);
         IScraper scraper = new Scraper(browser, authenticator);
 
-        await scraper.LoginAndScrapeAsync("CSE 210-06", "Thayne, Timothy E.");
+        await scraper.LoginAndScrapeAsync("CSE 210-06", "Thayne, Timothy E.", "Fall Semester 2023");
     }
 }
